@@ -1,20 +1,21 @@
-import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import { IQuestion } from "../interfaces/IQuestion";
+import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-Entity()
-export class Question implements IQuestion {
-    @PrimaryGeneratedColumn()
-    id: number
+@Entity('Question')
+export class Question {
+    @PrimaryGeneratedColumn({
+        comment: 'The question unique identifier',
+    })
+    id: number;
 
     @Column()
-    name: string
-    
+    name: string;
+
     @Column()
     text: string;
-    
+
     @Column()
     answer: string;
-    
+
     @Column()
     points: number;
 }

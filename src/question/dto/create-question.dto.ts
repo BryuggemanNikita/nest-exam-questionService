@@ -1,21 +1,19 @@
-import { IQuestion } from "../interfaces/IQuestion";
+import { IsNotEmpty, Length } from 'class-validator';
+import { IQuestion } from '../interfaces/IQuestion';
 
 export class CreateQuestionDto implements IQuestion {
-    id: number;
-    name: string;
-    text: string;
-    answer: string;
-    points: number;
 
-    constructor(id: number,
-        name: string,
-        text: string,
-        answer: string,
-        points: number) {
-        this.id = id;
-        this.name = name
-        this.text = text
-        this.answer = answer
-        this.points = points
-    }
+    @IsNotEmpty({ message: 'The question name cannot be empty.' })
+    @Length(3)
+    name: string;
+
+    @IsNotEmpty({ message: 'The question text cannot be empty.' })
+    @Length(3)
+    text: string;
+
+    @IsNotEmpty({ message: 'The question answer cannot be empty.' })
+    answer: string;
+
+    @IsNotEmpty({ message: 'The question name cannot be empty.' })
+    points: number;
 }
