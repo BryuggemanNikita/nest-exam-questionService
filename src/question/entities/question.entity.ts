@@ -2,7 +2,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { IQuestion } from "../interfaces/IQuestion";
 
 Entity()
-export class Question {
+export class Question implements IQuestion {
     @PrimaryGeneratedColumn()
     id: number
 

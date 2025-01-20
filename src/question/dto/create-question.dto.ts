@@ -1,6 +1,6 @@
-import { Question } from "../entities/question.entity";
+import { IQuestion } from "../interfaces/IQuestion";
 
-export class CreateQuestionDto implements Question {
+export class CreateQuestionDto implements IQuestion {
     id: number;
     name: string;
     text: string;
