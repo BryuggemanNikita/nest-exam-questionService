@@ -1,7 +1,8 @@
 import { BaseEntity, Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+import { IQuestion } from '../interfaces/IQuestion';
 
 @Entity('Question')
-export class Question {
+export class Question implements IQuestion {
     @PrimaryGeneratedColumn({
         comment: 'The question unique identifier',
     })

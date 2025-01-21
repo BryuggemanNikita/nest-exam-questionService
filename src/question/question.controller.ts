@@ -3,7 +3,6 @@ import {
     Get,
     Post,
     Body,
-    Patch,
     Param,
     Delete,
     HttpCode,
@@ -11,14 +10,17 @@ import {
     ValidationPipe,
     ParseIntPipe,
     Put,
+    UseGuards,
 } from '@nestjs/common';
 import { QuestionService } from './question.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
+import { Role } from 'src/common/decorator/roles.decorator';
+import { RolesGuard } from 'src/common/guards/roles.guard';
 
 @Controller('question')
 export class QuestionController {
-    constructor(private readonly questionService: QuestionService) { }
+    constructor(private readonly questionService: QuestionService) {}
 
     @Post()
     @HttpCode(200)
@@ -27,9 +29,10 @@ export class QuestionController {
         return this.questionService.create(createQuestionDto);
     }
 
-    
     @Get()
     @HttpCode(200)
+    @Role('ADMIN')
+    @UseGuards(RolesGuard)
     findAll() {
         return this.questionService.findAll();
     }

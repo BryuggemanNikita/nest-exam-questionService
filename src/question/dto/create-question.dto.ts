@@ -2,7 +2,6 @@ import { IsNotEmpty, Length } from 'class-validator';
 import { IQuestion } from '../interfaces/IQuestion';
 
 export class CreateQuestionDto implements IQuestion {
-
     @IsNotEmpty({ message: 'The question name cannot be empty.' })
     @Length(3)
     name: string;
