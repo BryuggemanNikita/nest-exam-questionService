@@ -1,18 +1,4 @@
-// import { PartialType } from '@nestjs/mapped-types';
-// import { CreateQuestionDto } from './create-question.dto';
-
-// import { IQuestion } from "../interfaces/IQuestion";
-
-// export class FilterQuestionDto extends PartialType(CreateQuestionDto) {}
-import {
-    IsEnum,
-    IsInt,
-    IsNotEmpty,
-    IsString,
-    Length,
-    Max,
-    Min,
-} from 'class-validator';
+import { IsEnum, IsInt, Max, Min } from 'class-validator';
 import { Difficulty } from 'src/common/enum/difficulty.enum';
 
 export class FilterQuestionDto {
@@ -23,5 +9,4 @@ export class FilterQuestionDto {
     @Min(0)
     @Max(10)
     points?: number;
-
 }

@@ -1,4 +1,10 @@
-import { HttpException, HttpStatus, Injectable, NotFoundException } from '@nestjs/common';
+import {
+    BadRequestException,
+    HttpException,
+    HttpStatus,
+    Injectable,
+    NotFoundException,
+} from '@nestjs/common';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -6,7 +12,6 @@ import { Question } from './entities/question.entity';
 import { Repository } from 'typeorm';
 import { IQuestion } from './interfaces/IQuestion';
 import { FilterQuestionDto } from './dto/filter-question.dto';
-import { error } from 'console';
 
 @Injectable()
 export class QuestionService {
@@ -31,27 +36,39 @@ export class QuestionService {
         const question: IQuestion = await this.questionRepository.findOneBy({
             id: id,
         });
-        if (!question)
+        if (!question) {
             throw new NotFoundException(`Question with id:${id} not found`);
+        }
         return question;
     }
 
-    async findByFilter(filterQuestionDto: FilterQuestionDto): Promise<void> {
-        console.log(filterQuestionDto);
-
-        console.log(await this.questionRepository.findBy(filterQuestionDto));
+    async findByFilter(
+        filterQuestionDto: FilterQuestionDto,
+    ): Promise<IQuestion[]> {
+        
+        const resFindByFilter: IQuestion[] = await this.questionRepository
+            .findBy(filterQuestionDto)
+            .catch(() => {
+                throw new BadRequestException();
+            });
+        return resFindByFilter;
     }
 
     async update(
         id: number,
         updateQuestionDto: UpdateQuestionDto,
     ): Promise<IQuestion> {
-        await this.questionRepository.update(id, updateQuestionDto).catch((err) => {
-            throw new HttpException({
-                "error": "Bad Request",
-                "statusCode": 400
-            }, HttpStatus.BAD_REQUEST)
-        });
+        await this.questionRepository
+            .update(id, updateQuestionDto)
+            .catch((err) => {
+                throw new HttpException(
+                    {
+                        error: 'Bad Request',
+                        statusCode: 400,
+                    },
+                    HttpStatus.BAD_REQUEST,
+                );
+            });
         return this.findById(id);
     }
 
