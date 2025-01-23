@@ -11,21 +11,26 @@ import {
     ParseIntPipe,
     Put,
     UseGuards,
+    Query,
 } from '@nestjs/common';
 import { QuestionService } from './question.service';
 import { CreateQuestionDto } from './dto/create-question.dto';
 import { UpdateQuestionDto } from './dto/update-question.dto';
 import { Role } from 'src/common/decorator/roles.decorator';
 import { RolesGuard } from 'src/common/guards/roles.guard';
+import { Difficulty } from 'src/common/enum/difficulty.enum';
+import { FilterQuestionDto } from './dto/filter-question.dto';
 
 @Controller('question')
 export class QuestionController {
-    constructor(private readonly questionService: QuestionService) {}
+    constructor(private readonly questionService: QuestionService) { }
 
     @Post()
-    @HttpCode(200)
+    @HttpCode(201)
     @UsePipes(ValidationPipe)
     create(@Body() createQuestionDto: CreateQuestionDto) {
+        console.log(createQuestionDto);
+        
         return this.questionService.create(createQuestionDto);
     }
 
@@ -35,6 +40,18 @@ export class QuestionController {
     @UseGuards(RolesGuard)
     findAll() {
         return this.questionService.findAll();
+    }
+
+    @Get('/filter?')
+    @HttpCode(200)
+    findByFilter(
+    @Query('points') points: number,
+    @Query('difficulty') difficulty: Difficulty,
+    ) {
+        console.log(points);
+        console.log(difficulty);
+        "в разработке"
+        // return this.questionService.findByFilter(filterQuestionDto)
     }
 
     @Get(':id')

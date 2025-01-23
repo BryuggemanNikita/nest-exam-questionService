@@ -6,7 +6,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { ConfigModule } from '@nestjs/config';
 import { LoggerHttp } from './common/middleware/logger.middleware';
 import { APP_FILTER, APP_GUARD } from '@nestjs/core';
-import { HttpExceptionFilter } from './common/exception/filters/http-exception.filter';
 import { AuthGuard } from './common/guards/auth.guard';
 import { WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
@@ -18,11 +17,11 @@ import { OtherExceptionFilter } from './common/exception/filters/other-exception
         ConfigModule.forRoot({ envFilePath: `.${process.env.NODE_ENV}.env` }),
         TypeOrmModule.forRoot({
             type: 'postgres',
-            host: process.env.PG_HOST,
-            port: Number(process.env.PG_PORT),
-            username: process.env.PG_USER,
-            password: process.env.PG_PASSWORD,
-            database: process.env.PG_DB,
+            host: process.env.POSTGRES_HOST,
+            port: Number(process.env.POSTGRES_PORT),
+            username: process.env.POSTGRES_USER,
+            password: process.env.POSTGRES_PASSWORD,
+            database: process.env.POSTGRES_DB,
             entities: [__dirname + '/**/entities/*.entity{.ts,.js}'],
             synchronize: true,
             logging: true,
@@ -55,10 +54,6 @@ import { OtherExceptionFilter } from './common/exception/filters/other-exception
     controllers: [AppController],
     providers: [
         AppService,
-        {
-            provide: APP_FILTER,
-            useClass: HttpExceptionFilter,
-        },
         {
             provide: APP_FILTER,
             useClass: OtherExceptionFilter,

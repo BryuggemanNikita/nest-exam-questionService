@@ -15,7 +15,7 @@ export class OtherExceptionFilter implements ExceptionFilter {
         private readonly httpAdapterHost: HttpAdapterHost,
         @Inject('winston')
         private readonly logger: Logger,
-    ) {}
+    ) { }
     catch(exception: unknown, host: ArgumentsHost) {
         const { httpAdapter } = this.httpAdapterHost;
 
@@ -26,14 +26,19 @@ export class OtherExceptionFilter implements ExceptionFilter {
                 ? exception.getStatus()
                 : HttpStatus.INTERNAL_SERVER_ERROR;
 
+        const errDetails =
+            exception instanceof HttpException
+                ? exception.getResponse()
+                : { message: exception['message'] || 'Internal Server Error', statusCode: exception['statusCode'] || 500 };
+
         const responseBody = {
-            statusCode: httpStatus,
             timestamp: new Date().toISOString(),
             path: httpAdapter.getRequestUrl(ctx.getRequest()),
+            errDetails: errDetails,
         };
 
         this.logger.warn(
-            `status: ${httpStatus}, path: ${httpAdapter.getRequestUrl(ctx.getRequest())}`,
+            `status: ${httpStatus}, path: ${(httpAdapter.getRequestUrl(ctx.getRequest()))}`,
         );
 
         httpAdapter.reply(ctx.getResponse(), responseBody, httpStatus);
