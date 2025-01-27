@@ -10,6 +10,7 @@ import { AuthGuard } from './common/guards/auth.guard';
 import { WinstonModule } from 'nest-winston';
 import * as winston from 'winston';
 import { OtherExceptionFilter } from './common/exception/filters/other-exception.filter';
+import { DifficultyModule } from './difficulty/difficulty.module';
 
 @Module({
     imports: [
@@ -50,6 +51,7 @@ import { OtherExceptionFilter } from './common/exception/filters/other-exception
                 }),
             ],
         }),
+        DifficultyModule,
     ],
     controllers: [AppController],
     providers: [

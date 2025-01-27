@@ -1,12 +1,12 @@
-import { IsEnum, IsInt, Max, Min } from 'class-validator';
-import { Difficulty } from 'src/common/enum/difficulty.enum';
+import { ApiProperty } from '@nestjs/swagger';
+import { IDifficulty } from 'src/difficulty/inteface/difficulty.interface';
 
 export class FilterQuestionDto {
-    @IsEnum(Difficulty)
-    difficulty?: Difficulty;
+    @ApiProperty({ example: 'HARD', description: 'Сложность вопроса' })
+    difficultyKey?: string;
 
-    @IsInt()
-    @Min(0)
-    @Max(10)
+    difficulty?: IDifficulty;
+
+    @ApiProperty({ example: '10', description: 'Кол-во баллов за вопрос' })
     points?: number;
 }

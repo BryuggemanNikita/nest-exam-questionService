@@ -1,8 +1,8 @@
-import { Difficulty } from 'src/common/enum/difficulty.enum';
+import { IDifficulty } from 'src/difficulty/inteface/difficulty.interface';
 
 export interface IQuestion {
     text: string;
     answer: string;
-    difficulty: Difficulty;
+    difficulty: IDifficulty;
     points: number;
 }

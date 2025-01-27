@@ -1,5 +1,5 @@
 import {
-    IsEnum,
+    IsAlpha,
     IsInt,
     IsNotEmpty,
     IsString,
@@ -7,24 +7,30 @@ import {
     Max,
     Min,
 } from 'class-validator';
+import { ApiProperty } from '@nestjs/swagger';
+import { IDifficulty } from 'src/difficulty/inteface/difficulty.interface';
 import { IQuestion } from '../interfaces/IQuestion';
-import { Difficulty } from 'src/common/enum/difficulty.enum';
 
 export class CreateQuestionDto implements IQuestion {
-    @IsNotEmpty({ message: 'The question difficulty cannot be empty.' })
-    @IsEnum(Difficulty)
-    difficulty: Difficulty;
-
+    @ApiProperty({ example: 'Сколько?', description: 'Текст вопроса' })
     @IsNotEmpty({ message: 'The question text cannot be empty.' })
     @IsString()
     @Length(3)
     text: string;
 
+    @ApiProperty({ example: 'Да', description: 'Ответ на вопрос' })
     @IsNotEmpty({ message: 'The question answer cannot be empty.' })
     @IsString()
     @Length(3)
     answer: string;
 
+    @ApiProperty({ example: 'HARD', description: 'Сложность вопроса' })
+    @IsAlpha()
+    difficultyKey: string;
+
+    difficulty: IDifficulty;
+
+    @ApiProperty({ example: '10', description: 'Кол-во баллов за вопрос' })
     @IsNotEmpty({ message: 'The question points cannot be empty.' })
     @IsInt()
     @Min(0)
