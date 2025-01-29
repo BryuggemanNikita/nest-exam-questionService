@@ -24,6 +24,7 @@ import { DifficultyModule } from './difficulty/difficulty.module';
             password: process.env.POSTGRES_PASSWORD,
             database: process.env.POSTGRES_DB,
             entities: [__dirname + '/**/entities/*.entity{.ts,.js}'],
+            schema: 'question',
             synchronize: true,
             logging: true,
         }),

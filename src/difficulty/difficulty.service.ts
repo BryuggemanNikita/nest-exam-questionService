@@ -7,9 +7,7 @@ import { CreateDifficultyDto } from './dto/create-difficulty.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Difficulty } from './entities/difficulty.entity';
 import { Repository } from 'typeorm';
-import { waitForDebugger } from 'inspector';
 import { IDifficulty } from './inteface/difficulty.interface';
-import { NotFoundError } from 'rxjs';
 
 @Injectable()
 export class DifficultyService {
